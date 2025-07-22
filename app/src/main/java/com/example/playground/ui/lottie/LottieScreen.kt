@@ -23,6 +23,8 @@ import com.airbnb.lottie.compose.LottieClipSpec
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.playground.ui.lottie.model.AnimationUiState
+import com.example.playground.ui.lottie.model.LottieAnimationUiModel
 
 const val LOTTIE_ANIMATION_FILE = "animation/small_confetti_centre.lottie"
 const val LOTTIE_ANIMATION_TEST_TAG = "lottieAnimationTestTag"

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.playground.ui.lottie.model.AnimationUiState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -30,12 +31,3 @@ class LottieViewModel : ViewModel() {
         }
     }
 }
-
-
-sealed class AnimationUiState {
-    data object Initial : AnimationUiState()
-    data object InProgress : AnimationUiState()
-    data class Done(val shouldShowAnimation: Boolean) : AnimationUiState()
-}
-
-data class LottieAnimationUiModel(val shouldShowAnimation: Boolean)

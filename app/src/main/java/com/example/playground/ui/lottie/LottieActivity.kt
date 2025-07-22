@@ -118,38 +118,3 @@ enum class LottieRoutes(
     Fragment2("Fragment2"),
     Fragment3("Fragment3"),
 }
-
-/*@Composable
-private fun Tabs(
-    modifier: Modifier,
-    selectedTabIndex: Int,
-    scrollToItem: (String) -> Unit,
-    tabItems: List<String>
-) {
-    ScrollableTabRow(modifier = modifier, selectedTabIndex = selectedTabIndex) {
-        tabItems.forEachIndexed { index, item ->
-            Tab(
-                selected = selectedTabIndex == index,
-                onClick = { scrollToItem(item) }
-            ) {
-                Text(text = item)
-            }
-        }
-    }
-}*/
-
-/*
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PlaygroundTheme {
-        Tabs(
-            modifier = Modifier,
-            selectedTabIndex = 0,
-            scrollToItem = {
-                Log.d("TUS UN MAKINA", it)
-            },
-            tabItems = listOf("Test 1, Test 2, Test 3, Test 4, Test 5, Test 2, Test 3, Test 4, Test 5, Test 2, Test 3, Test 4, Test 5")
-        )
-    }
-}*/
