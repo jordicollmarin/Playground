@@ -20,7 +20,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
@@ -29,6 +28,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.playground.data.prompts.model.PromptsData
 import com.example.playground.extensions.loop
 import com.example.playground.extensions.loopSingleItem
@@ -44,9 +47,9 @@ fun PromptsScreen(
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
-            PromptsListApproach(Modifier.weight(0.3f), viewModel)
-            // PromptsListPairApproach(Modifier.weight(0.3f), viewModel)
-            // PromptsFlowApproach(Modifier.weight(0.3f), viewModel)
+            PromptsListApproach(Modifier.weight(1f), viewModel)
+            PromptsListPairApproach(Modifier.weight(1f), viewModel)
+            PromptsFlowApproach(Modifier.weight(1f), viewModel)
         }
     }
 }
@@ -55,13 +58,18 @@ fun PromptsScreen(
 fun PromptsListApproach(modifier: Modifier = Modifier, viewModel: PromptsViewModel) {
     val data = viewModel.prompts
 
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+
     val prompt by produceState(initialValue = data.first()) {
-        data.loopSingleItem { prompt ->
-            value = prompt
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            data.loopSingleItem { prompt ->
+                value = prompt
+            }
         }
     }
 
-    Log.d("Jordi", prompt)
+
+    Log.d("Playground:Prompts", prompt)
 
     var input by remember { mutableStateOf("") }
 
@@ -110,7 +118,8 @@ fun PromptsListPairApproach(modifier: Modifier = Modifier, viewModel: PromptsVie
             value = PromptsData(currentPrompt, nextPrompt)
         }
     }
-    Log.d("Jordi", transitionPair.toString())
+
+    Log.d("Playground:Prompts", transitionPair.toString())
 
     val animatedTermState =
         remember(transitionPair) {
@@ -160,7 +169,7 @@ fun PromptsListPairApproach(modifier: Modifier = Modifier, viewModel: PromptsVie
  */
 @Composable
 fun PromptsFlowApproach(modifier: Modifier = Modifier, viewModel: PromptsViewModel) {
-    val promptsData by viewModel.promptsFlow.collectAsState(
+    val promptsData by viewModel.promptsFlow.collectAsStateWithLifecycle(
         viewModel.getFirstPrompt()
     )
 
@@ -173,13 +182,14 @@ fun PromptsFlowApproach(modifier: Modifier = Modifier, viewModel: PromptsViewMod
 
     var input by remember { mutableStateOf("") }
 
-    Column(modifier = modifier) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.Start,
+        modifier = modifier
+    ) {
         Text(text = "Flow Approach", modifier = Modifier.padding(8.dp))
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
+        Row {
             TextField(
                 value = input,
                 onValueChange = { input = it },

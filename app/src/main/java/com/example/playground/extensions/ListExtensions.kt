@@ -31,17 +31,12 @@ suspend fun <T> List<T>.loopSingleItem(action: (T) -> Unit) {
         isEmpty() || size == 1 -> return
 
         else -> {
-            val last = mutableListOf(first())
-
-            fun getRandom() =
-                subtract(last.toSet()).random().also {
-                    last.add(it)
-                    if (last.size > 2) last.removeAt(0)
-                }
-
+            var random = random()
             while (true) {
                 delay(1500)
-                action(getRandom())
+                action(subtract(setOf(random)).random().also {
+                    random = it
+                })
             }
         }
     }
