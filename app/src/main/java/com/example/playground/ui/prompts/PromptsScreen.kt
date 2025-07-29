@@ -68,8 +68,7 @@ fun PromptsListApproach(modifier: Modifier = Modifier, viewModel: PromptsViewMod
         }
     }
 
-
-    Log.d("Playground:Prompts", prompt)
+    Log.d("Playground:PromptsListApproach", prompt)
 
     var input by remember { mutableStateOf("") }
 
@@ -119,7 +118,7 @@ fun PromptsListPairApproach(modifier: Modifier = Modifier, viewModel: PromptsVie
         }
     }
 
-    Log.d("Playground:Prompts", transitionPair.toString())
+    Log.d("Playground:PromptsListPairApproach", transitionPair.toString())
 
     val animatedTermState =
         remember(transitionPair) {
